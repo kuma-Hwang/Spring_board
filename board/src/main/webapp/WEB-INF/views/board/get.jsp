@@ -19,29 +19,36 @@
 			<div class="panel-body">
 
 				<div class="form-group">
-					<label>Bno</label> <input class="form-control" name='bno' value=${board.bno } readonly="readonly">
+					<label>Bno</label> <input class="form-control" name='bno'
+						value=${board.bno } readonly="readonly">
 				</div>
-				
+
 				<div class="form-group">
-					<label>Title</label> <input class="form-control" name='title' value=${board.title } readonly="readonly">
+					<label>Title</label> <input class="form-control" name='title'
+						value=${board.title } readonly="readonly">
 				</div>
-				
+
 				<div class="form-group">
 					<label>Text area</label>
-					<textarea class="form-control" rows="3" name='content' readonly="readonly">${board.content}</textarea>
+					<textarea class="form-control" rows="3" name='content'
+						readonly="readonly">${board.content}</textarea>
 				</div>
 
 				<div class="form-group">
-					<label>Writer</label> <input class="form-control" name='writer' value=${board.writer } readonly="readonly">
+					<label>Writer</label> <input class="form-control" name='writer'
+						value=${board.writer } readonly="readonly">
 				</div>
-				<button type="submit" class="btn btn-default btn-success" onclick="location.href='/board/modify?bno=${board.bno}'">Modify</button>
-				<button type="submit" class="btn btn-default btn-info" onclick="location.href='/board/list'">List</button>
+				<button type="submit" class="btn btn-default btn-success"
+					onclick="location.href='/board/modify?bno=${board.bno}'">Modify</button>
+				<button type="submit" class="btn btn-default btn-info"
+					onclick="location.href='/board/list'">List</button>
 
-
-
-
-
-
+				<form id='operForm' action="/board/modify" method='get'>
+					<input type='hidden' id="bno" name='bno' value='<c:out value="${board.bno}"/>'>
+					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/> '>
+					<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/> '> 
+					<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'> 
+					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
 				</form>
 			</div>
 			<!-- /.panel-body -->
@@ -51,6 +58,23 @@
 	<!-- /.col-lg-6 -->
 </div>
 <!-- /.row -->
+
+<script type="text/javascript">
+$(doucment).ready(function() {
+	var operForm = $("#operForm");
+	
+	$("button[data-oper='modify']").on("click", function(e){
+		operForm.attr("action", "/board/modify").submit();
+	});
+	
+	$("button[data-oper='list']").on("click", function(e){
+		operForm.find("#bno").remove();
+		operForm.attr("action","/board.list")
+		operForm.submit();
+	});
+	
+});
+</script>
 
 
 <%@ include file="../includes/footer.jsp"%>

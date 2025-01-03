@@ -20,6 +20,15 @@
 			<!-- /.panel-heading -->
 			<div class="panel-body">
 				<form role="form" action="/board/modify" method="post">
+					<input type="hidden" name='pageNum' value ='<c:out value="${ cri.
+					pageNum}"/>'>
+					<input type="hidden" name='amount' value ='<c:out value="${ cri.
+					amount}"/>'>
+					<input type="hidden" name='keyword' value = '<c:out value="${cri.
+					keyword}"/>'>
+					<input type="hidden" name='type' value = '<c:out value="${cri.
+					type}"/>'>
+				
 					<div class="form-group">
 						<label>Bno</label> <input class="form-control" name='bno'
 							value=${board.bno} readonly="readonly">
@@ -39,6 +48,7 @@
 						<label>Writer</label> <input class="form-control" name='writer'
 							value=${board.writer} readonly="readonly">
 					</div>
+					
 					<button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
 					<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
 					<button type="submit" data-oper='list' class="btn btn-info">List</button>
@@ -54,32 +64,44 @@
 <!-- /.row -->
 
 <script type="text/javascript">
-$(document).ready(function(){
-		var formObj = $("form");
+$(document).ready(function() {
+	
+	
+	var formObj = $("form");
+	
+	$("button").on("click", function(e){
 		
-		$("button").on("click",function(e){
-			e.preventDefault();
+		e.preventDefault();
+		
+		var operation = $(this).data("oper");
+		
+		console.log(operation);
+		
+		if(operation === 'remove'){
+			formObj.attr("action", "/board/remove");
 			
-			var operation = $(this).data("oper");
+		}else if(operation === 'list'){
 			
-			console.log(operation);
+			formObj.attr("action", "/board/list").attr("method","get");
 			
-			if (operation === 'list') {
-				self.location = "/board/list";
-				return;
-			}else if (operation === 'remove') {
-						formObj.attr("action", "/board/remove")
-						.attr("method", "post")
-						formObj.submit();
-			}else if (operation === 'modify') {
-						formObj.attr("action", "/board/modify")
-						.attr("method", "post")
-						formObj.submit();
-			}
+			var pageNumTag = $("input[name='pageNum']").clone();
+			var amountTag = $("input[name='amount']").clone();
+			var keywordTag = $("input[name='keyword']").clone();
+			var typeTag = $("input[name='type']").clone();
 			
 			
-		});
-}); 
+			formObj.empty();
+			formObj.append(pageNumTag);
+			formObj.append(amountTag);
+			formObj.append(keywordTag);
+			formObj.append(typeTag);
+		}
+		
+		formObj.submit();
+		
+	});
+	
+});
 </script>
 
 

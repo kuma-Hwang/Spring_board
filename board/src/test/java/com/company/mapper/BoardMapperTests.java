@@ -1,5 +1,9 @@
 package com.company.mapper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.company.domain.BoardVO;
+import com.company.domain.Criteria;
 
 import lombok.extern.log4j.Log4j;
 
@@ -54,7 +59,6 @@ public class BoardMapperTests {
 	@Test
 	public void testRead() {
 		
-		// 議댁옱�븯�뒗 寃뚯떆臾� 踰덊샇濡� �뀒�뒪�듃
 		BoardVO board = mapper.read(5L);
 		
 		log.info(board);
@@ -80,6 +84,48 @@ public class BoardMapperTests {
 		
 	}
 	
+	@Test
+	public void testSearch() {
+		Map<String, String> map = new HashMap<String, String>();
+			
+		map.put("T", "1");
+		map.put("C", "테스트");
+	    map.put("W", "테스트");
+			
+		Map<String, Map<String, String>> outer = new HashMap<>();
+			
+		outer.put("map", map);
+			
+		List<BoardVO> list = mapper.searchTest(outer);
+		log.info(list);
+			
+	}
+	
+	@Test
+	public void testPaging() {
+		Criteria cri = new Criteria();
+		//10개씩 3페이지
+		cri.setPageNum(3);
+		cri.setAmount(10);
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board.getBno()));
+	}
+	
+	
+	
+//	@Test
+//	public void testgetListWithPaging() {
+//		Criteria cri = new Criteria();
+//			
+//		cri.setKeyword("user00");
+//		cri.setType("TCW");
+//			
+//		mapper.getListWithPaging(cri)
+//		.forEach(list-> log.info(list));
+//			
+//	}
 	
 	
 	

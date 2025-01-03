@@ -1,10 +1,11 @@
-package com.company.service;
+ package com.company.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.company.domain.BoardVO;
+import com.company.domain.Criteria;
 import com.company.mapper.BoardMapper;
 
 import lombok.AllArgsConstructor;
@@ -45,12 +46,21 @@ public class BoardServiceImpl implements BoardService {
 	public boolean remove(Long bno) {
 		log.info("delete......" + bno);
 
-		return mapper.delete(bno) == 10;
+		return mapper.delete(bno) == 1;
 	}
 
 	@Override
-	public List<BoardVO> getList() {
-		log.info("getList..............");
-		return mapper.getList();
+	public List<BoardVO> getList(Criteria cri) {
+		
+		log.info("get List with criteria:" + cri);
+		
+		return mapper.getListWithPaging(cri);
+	}
+	
+	@Override
+	public int getTotal(Criteria cri) {
+		
+		log.info("get total count");
+		return mapper.getTotalCount(cri);
 	}
 }
